@@ -13,36 +13,36 @@ export default class App extends Component {
       hasAccount: false,
       key: "",
       value: "",
-      name: "",
+      name: ""
     };
   }
   componentDidMount() {
     const db = firebase.database();
     const name = db.ref("name");
-    name.on("value", (elem) => {
+    name.on("value", elem => {
       this.setState({ name: elem.val() });
     });
   }
   handleChange = ({ target: { value, id } }) => {
     this.setState({
-      [id]: value,
+      [id]: value
     });
   };
 
-  createAccount = (event) => {
+  createAccount = event => {
     event.preventDefault();
     const { email, password } = this.state;
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .catch((error) => alert(error));
+      .catch(error => alert(error));
     // alert("Your account has been created");
   };
 
   getData = () => {
     const db = firebase.database();
     const accounts = db.ref("accounts");
-    accounts.on("value", (elem) => console.log(elem.val(), "123"));
+    accounts.on("value", elem => console.log(elem.val(), "123"));
   };
 
   sendData = () => {
@@ -51,21 +51,21 @@ export default class App extends Component {
     db.ref(key).push(value);
   };
 
-  signIn = (event) => {
+  signIn = event => {
     event.preventDefault();
     const { email, password } = this.state;
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then((response) => {
+      .then(response => {
         this.setState({ hasAccount: true });
       })
-      .catch((error) => console.log(error));
+      .catch(error => console.log(error));
   };
 
   render() {
     const { hasAccount } = this.state;
-    this.getData(); 
+    this.getData();
     return (
       <div className="container">
         {hasAccount ? (
